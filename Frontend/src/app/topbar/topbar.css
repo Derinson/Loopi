@@ -1,0 +1,121 @@
+.custom-topbar {
+  background-color: #6d5d9a;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  width: 80px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.nav-link:hover {
+  color: #38355d !important;
+}
+
+.badge {
+ position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #E6E6FA;
+  color: #38355d;
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.opciones {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #fff;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.opciones:hover {
+  color: #38355d;
+}
+
+.search-bar {
+  width: 400px !important;
+  height: 33px !important;
+  border-radius: 8px !important;
+}
+
+form input {
+  width: 200px;
+  transition: width 0.3s ease;
+}
+
+form input:focus {
+  width: 250px;
+}
+
+/* Menú desplegable del usuario */
+.dropdown-menu {
+  min-width: 220px;
+  font-size: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-header {
+  font-weight: bold;
+  color: #38355d;
+  font-size: 16px;
+  padding: 8px 16px;
+}
+
+.dropdown-item {
+  padding: 10px 16px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.dropdown-item i {
+  color: #6d5d9a;
+  margin-right: 8px;
+}
+
+.login-only {
+  font-weight: 500;
+  color: #6d5d9a;
+}
+
+.topbar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.topbar-avatar:hover {
+  transform: scale(1.05);
+}
+

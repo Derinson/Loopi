@@ -1,0 +1,120 @@
+/* src/app/components/home/home.css */
+
+.home-container {
+  padding-bottom: 60px;
+  background-color: #f9fafa; /* Fondo muy suave */
+}
+
+/* ======== 1. CARRUSEL PRINCIPAL (BANNER) ======== */
+.main-banner-carousel {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  margin-bottom: 50px;
+  border-radius: 0 0 20px 20px; /* Borde inferior redondeado */
+  overflow: hidden;
+}
+
+.main-banner-carousel .carousel-item {
+  height: 400px; /* Altura fija */
+  background-color: #13162c;
+}
+
+.main-banner-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  object-position: center;
+}
+
+/* ======== 2. SECCIONES DE CATEGORÍA ======== */
+.category-section {
+  max-width: 1400px;
+  margin: 0 auto 60px auto; 
+  padding: 0 20px;
+}
+
+.category-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #333;
+  font-size: 1.8rem;
+  border-left: 5px solid #6d5d9a; /* Tu color morado */
+  padding-left: 15px;
+}
+
+.opcion-ver-mas {
+  color: #6d5d9a;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.opcion-ver-mas:hover {
+  color: #38355d;
+  text-decoration: underline;
+}
+
+/* ======== 3. CONTROLES DEL CARRUSEL DE PRODUCTOS ======== */
+.category-carousel {
+  padding: 0 5px;
+}
+
+/* Botones laterales que sobresalen un poco */
+.product-control-prev,
+.product-control-next {
+  width: 50px;
+  opacity: 0.8;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50px;
+  border-radius: 50%;
+}
+
+.product-control-prev { left: -20px; }
+.product-control-next { right: -20px; }
+
+/* Círculo de fondo para las flechas */
+.control-icon-wrapper {
+  background-color: rgba(109, 93, 154, 0.9); 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.product-control-prev:hover .control-icon-wrapper,
+.product-control-next:hover .control-icon-wrapper {
+  background-color: #38355d; 
+  transform: scale(1.1);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Loader */
+.spinner-border.text-purple {
+  color: #6d5d9a;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .main-banner-carousel .carousel-item {
+    height: 250px; /* Más bajo en móvil */
+  }
+  
+  .product-control-prev, .product-control-next {
+    display: none; /* Ocultar flechas externas en móvil */
+  }
+  
+  .category-section {
+      padding: 0 10px;
+  }
+}

@@ -1,0 +1,135 @@
+<!-- Botón para abrir el modal -->
+<button class="btn-agregar mb-4 btn-agregar-superior" data-bs-toggle="modal" data-bs-target="#modalProducto">
+  {{ editando ? 'Editar producto' : 'Agregar producto' }}
+</button>
+
+
+
+<!-- Modal para crear o editar producto -->
+<div class="modal fade" id="modalProducto" #modalProducto tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="background: #1b1f38; color: #fff; border-radius: 20px">
+      
+      <div class="modal-header border-0 d-flex justify-content-between align-items-center">
+        <h2 class="modal-title" id="modalProductoLabel">
+          {{ editando ? 'Editar producto' : 'Agregar producto' }}
+        </h2>
+        <div class="d-flex gap-2 align-items-center">
+          <button *ngIf="editando" class="btn btn-sm btn-outline-light" (click)="cancelarEdicion()">
+            Nuevo producto
+          </button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar" (click)="resetFormulario()"></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form #miForm="ngForm" (ngSubmit)="crearProducto()" enctype="multipart/form-data">
+
+          <input type="text" placeholder="Título" [(ngModel)]="nuevoProducto.titulo" name="titulo" required minlength="4" maxlength="60" #tituloCtrl="ngModel" />
+          <div *ngIf="tituloCtrl.invalid && tituloCtrl.touched" style="color: #ff1919; font-size: 14px">
+            <span *ngIf="tituloCtrl.errors?.['required']">El título es obligatorio.</span>
+            <span *ngIf="tituloCtrl.errors?.['minlength']">Título demasiado corto (mínimo 4 letras).</span>
+            <span *ngIf="tituloCtrl.errors?.['maxlength']">Título demasiado largo (máximo 60 letras).</span>
+          </div>
+
+          <input type="text" placeholder="Descripción" [(ngModel)]="nuevoProducto.descripcion" name="descripcion" required minlength="10" maxlength="500" #descCtrl="ngModel" />
+          <div *ngIf="descCtrl.invalid && descCtrl.touched" style="color: #ff1919; font-size: 14px">
+            <span *ngIf="descCtrl.errors?.['required']">La descripción es obligatoria.</span>
+            <span *ngIf="descCtrl.errors?.['minlength']">Agrega una descripción más detallada (mín. 10 letras).</span>
+            <span *ngIf="descCtrl.errors?.['maxlength']">Descripción demasiado larga (máx. 500 letras).</span>
+          </div>
+
+          <select [(ngModel)]="nuevoProducto.categoriaId" name="categoriaId" required #categoriaSelCtrl="ngModel">
+            <option [ngValue]="null" disabled>Selecciona categoría</option>
+            
+            <option *ngFor="let cat of categorias" [value]="cat.id">
+              {{ cat.nombre }} </option>
+          </select>
+          <div *ngIf="categoriaSelCtrl.invalid && categoriaSelCtrl.touched" style="color: #ff1919; font-size: 14px">
+            <span *ngIf="categoriaSelCtrl.errors?.['required']">Seleccionar una categoría es obligatorio.</span>
+          </div>
+
+          <input type="number" placeholder="Precio" [(ngModel)]="nuevoProducto.precio" name="precio" required min="100" max="10000000" #precioCtrl="ngModel" />
+          <div *ngIf="precioCtrl.invalid && precioCtrl.touched" style="color: #ff1919; font-size: 14px">
+            <span *ngIf="precioCtrl.errors?.['required']">El precio es obligatorio.</span>
+            <span *ngIf="precioCtrl.errors?.['min']">El precio debe ser mayor a 100 pesos.</span>
+            <span *ngIf="precioCtrl.errors?.['max']">El precio es demasiado alto.</span>
+          </div>
+
+          <select class="form-control" [(ngModel)]="nuevoProducto.estado" name="estado" required #estadoCtrl="ngModel">
+            <option value="" disabled selected>Selecciona un estado</option>
+            <option *ngFor="let est of estados" [value]="est">{{ est }}</option>
+          </select>
+          <div *ngIf="estadoCtrl.invalid && estadoCtrl.touched" style="color: #ff1919; font-size: 14px">
+            <span *ngIf="estadoCtrl.errors?.['required']">Debes seleccionar un estado.</span>
+          </div>
+
+          <div class="input-container">
+            <input type="file" (change)="onFilesSelected($event)" accept="image/png, image/jpeg, image/webp" multiple required />
+            <span class="input-warning" *ngIf="imagenesInvalidas">
+              Debes subir solo imágenes (JPG, PNG, WEBP, máx 2MB).
+            </span>
+          </div>
+
+          <div class="text-end mt-4">
+            <button type="submit" [disabled]="miForm.invalid" class="btn-agregar">
+              {{ editando ? 'Actualizar producto' : 'Agregar producto' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Listado de productos -->
+<hr />
+<h3>Productos registrados</h3>
+
+<div class="filtros">
+ <div class="filtro">
+    <label for="categoriaFiltro">Filtrar por categoría:</label>
+    <select id="categoriaFiltro" name="categoriaFiltro" [(ngModel)]="categoriaFiltro" (change)="aplicarFiltros()">
+      <option [ngValue]="null">Todas</option>
+      <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+    </select>
+  </div>
+
+  <div class="filtro">
+    <label for="estadoFiltro">Filtrar por estado:</label>
+    <select id="estadoFiltro" name="estadoFiltro" [(ngModel)]="estadoFiltro" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option *ngFor="let est of estados" [value]="est">{{ est }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="productos-grid">
+  <div *ngFor="let p of productos" class="producto">
+    <div class="info">
+      <h4>{{ p.titulo }}</h4>
+      <p>{{ p.descripcion }}</p>
+      <p><strong>${{ p.precio }}</strong></p>
+      <span class="estado" [ngClass]="p.estado.toLowerCase()">{{ p.estado }}</span>
+      <div class="acciones">
+        <button class="editar" (click)="editarProducto(p)">Editar</button>
+        <button class="eliminar" (click)="eliminarProducto(p.id!)">Eliminar</button>
+
+
+      </div>
+    </div>
+
+    <div *ngIf="p.imagenes && p.imagenes.length > 0" class="producto-carrusel">
+      <button class="scroll-btn left" (click)="scrollLeft('productoScroll' + p.id)">&#10094;</button>
+      <div class="preview-scroll" id="{{'productoScroll' + p.id}}">
+        <img *ngFor="let img of p.imagenes" [src]="img.secureUrl" alt="imagen producto" />
+      </div>
+      <button class="scroll-btn right" (click)="scrollRight('productoScroll' + p.id)">&#10095;</button>
+    </div>
+
+    <div *ngIf="!p.imagenes || p.imagenes.length === 0" class="producto-carrusel-placeholder">
+       <img src="assets/placeholder-image.png" alt="Sin imagen" />
+    </div>
+  </div>
+</div>

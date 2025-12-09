@@ -1,0 +1,53 @@
+<div class="carrito-wrapper">
+  
+  <div class="col productos">
+
+    <h2>Tu Carrito</h2>
+
+    <div *ngIf="carrito.length === 0" class="carrito-vacio">
+      <p>No hay productos en el carrito.</p>
+    </div>
+
+    <div *ngIf="carrito.length > 0" class="items-container">
+
+      <div class="item" *ngFor="let item of carrito; trackBy: trackById">
+
+        <img 
+          class="product-img"
+          [src]="item.producto.imagenes?.[0]?.secureUrl"
+          alt="Imagen producto"
+        />
+
+        <div class="info">
+          <h3>{{ item.producto.titulo }}</h3>
+          <p class="precio">$ {{ item.producto.precio.toLocaleString('es-CO') }}</p>
+        </div>
+
+        <button class="eliminar" (click)="eliminar(item.id)">🗑</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col resumen" *ngIf="carrito.length > 0">
+
+    <h3>Resumen de compra</h3>
+
+    <div class="resumen-dato">
+      <span>Cantidad de productos:</span>
+      <strong>{{ carrito.length }}</strong>
+    </div>
+
+    <div class="resumen-dato">
+      <span>Total a pagar:</span>
+      <strong class="total-precio">$ {{ total.toLocaleString('es-CO') }}</strong>
+    </div>
+
+    <button class="btn vaciar" (click)="vaciar()">Vaciar carrito</button>
+    <button class="btn comprar" (click)="comprar()">Compra</button>
+
+  </div>
+
+</div>
